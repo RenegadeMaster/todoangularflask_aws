@@ -1,0 +1,83 @@
+<!doctype html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Todos ✓</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+    <link rel="stylesheet" href="/static/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="/static/lib/animate.css/animate.css" />
+    <link rel="stylesheet" href="/static/styles/main.css">
+  </head>
+  <body ng-app="todoWebApp">
+    <!--[if lt IE 7]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="container" ng-controller="TodosCtrl">
+        <div class="panel panel-default">
+            <h1 class="title">Todos ✓</h1>
+            <div class="panel-body">
+                <form class="form form-horizontal" ng-submit="addTodo()">
+                    <div class="form-group">
+                        <div class="col-xs-10 col-sm-8 col-lg-10">
+                            <input type="text" ng-enter="addTodo()" ng-model="newTodo"
+                                   placeholder="What needs to be done?" class="form-control new-todo">
+                        </div>
+                        <button class="btn col-xs-2 col-sm-2 col-lg-2 add-todo-button">Add Todo</button>
+                    </div>
+                </form>
+                <table class="table table-striped todos-list">
+                    <tr ng-repeat="item in items" ng-mouseenter="showCross = true" ng-mouseleave="showCross = false" class="todo-item">
+                        <td ng-hide="(selectedFilter == 'active' && item.done == true)
+                            || (selectedFilter == 'completed' && item.done == false)">
+                        <span class="close" ng-click="removeTodo(item.id, $index)" ng-show="showCross">×</span>
+                        <input ng-id="item.id" class="custom-checkbox" type="checkbox" ng-model="item.done">
+                        <label class="custom-label" ng-for="item.id" ng-click="toggleTodo(item.id, $index)"></label>
+                            <span ng-bind="item.task" ng-dblclick="editTodo(item.id)" ng-class="{done: item.done}"
+                              ng-hide="editingTodo === item.id"></span>
+                        <input ng-show="editingTodo === item.id" class="edit form-control" ng-model="item.task"
+                               ng-escape="closeEditingTodo()" ng-enter="doneEditingTodo(item.id, $index)"
+                                ng-blur="doneEditingTodo(item.id, $index)">
+                        </td>
+                    </tr>
+                </table>
+                <small style="color: #a9a9a9">Double Click to edit a Task</small>
+            </div>
+            <div class="panel-footer">
+{#                <a id="clear-done" ng-click="clearCompleted()">Clear completed tasks</a> (<label ng-bind="items.length - itemsLeftCounter"></label>)#}
+                <span class="pull-right"><a ng-click="markAllComplete()" href="">Mark all as complete</a></span>
+                <span class="items-left"><span ng-bind="itemsLeftCounter"></span> items left</span>
+            </div>
+        </div>
+        <div class="footer" style="text-align: center">
+            <p>made with ♥</p>
+        </div>
+    </div>
+
+    <!--[if lt IE 9]>
+    <script src="bower_components/es5-shim/es5-shim.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+    <!-- build:js scripts/vendor.js -->
+    <!-- bower:js -->
+    <script src="/static/lib/jquery/jquery.js"></script>
+    <script src="/static/lib/angular/angular.js"></script>
+    <script src="/static/lib/angular-animate/angular-animate.min.js"></script>
+{#    <script src="/static/lib/bootstrap/dist/js/bootstrap.min.js"></script>#}
+    <!-- endbower -->
+    <!-- endbuild -->
+        <!-- build:js({.tmp,app}) scripts/scripts.js -->
+        <script src="/static/scripts/app.js"></script>
+        <script src="/static/scripts/directives/keypressEnter.js"></script>
+        <script src="/static/scripts/directives/keypressEscape.js"></script>
+        <script src="/static/scripts/controllers/todos.js"></script>
+        <script src="/static/scripts/services/TodoService.js"></script>
+        <!-- endbuild -->
+</body>
+</html>

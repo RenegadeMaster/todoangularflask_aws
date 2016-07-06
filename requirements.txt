@@ -1,0 +1,13 @@
+Flask==0.10.1
+Flask-RESTful==0.2.11
+Flask-SQLAlchemy==1.0
+Jinja2==2.7.2
+MarkupSafe==0.18
+SQLAlchemy==0.9.3
+Werkzeug==0.9.4
+aniso8601==0.82
+itsdangerous==0.23
+python-dateutil==2.2
+pytz==2013.9
+six==1.5.2
+wsgiref==0.1.2
