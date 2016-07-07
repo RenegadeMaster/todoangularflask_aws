@@ -22,7 +22,7 @@ todo_fields = {
 class TodoListResource(Resource):
     @marshal_with(todo_fields)
     def get(self):
-        returned_results = list(Todo.list_index.query('1'))
+        returned_results = list(Todo.list_index.query('1')) # list id
         print('query returned list length ' + str(len(returned_results)))
         for todoitem in returned_results:
             print('query got item: {0}'.format(todoitem))
@@ -37,10 +37,11 @@ class TodoListResource(Resource):
         return new, 201
 
     def put(self):
-        tasks = Todo.query.all()
-        for task in tasks:
-            task.done = True
-        db.session.commit()
+        tasks = list(Todo.list_index.query('1')) # list id
+        with Todo.batch_write() as batch:
+            for task in tasks:
+                task.done = True
+                batch.save(task)
         return '', 204
 
     def delete(self):
@@ -63,19 +64,18 @@ class TodoResource(Resource):
         return {'error': 'The specified id was not found in the DB'}, 400
 
     def delete(self, todo_id):
-        to_delete = Todo.query.get(todo_id)
+        to_delete = Todo.get(todo_id)
         if to_delete:
-            db.session.delete(to_delete)
-            db.session.commit()
+            to_delete.delete()
             return '', 204
         return {'error': 'The specified id was not found in the DB'}, 400
 
     def put(self, todo_id):
-        to_modify = Todo.query.get(todo_id)
+        to_modify = Todo.get(todo_id)
         if to_modify and request.json:
             to_modify.task = request.json.get('task', to_modify.task)
             to_modify.done = request.json.get('done', to_modify.done)
-            db.session.commit()
+            to_modify.save()
             return '', 204
         return {}, 400
 

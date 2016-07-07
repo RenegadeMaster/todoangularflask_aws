@@ -1,6 +1,7 @@
 {
     "dev": {
         "s3_bucket": "dczaptest",
-        "app_function": "todoapp.app"
+        "app_function": "todoapp.app",
+        "http_methods": ["GET", "POST", "PUT", "DELETE"]
     }
 }

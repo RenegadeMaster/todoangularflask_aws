@@ -35,14 +35,14 @@
                     <tr ng-repeat="item in items" ng-mouseenter="showCross = true" ng-mouseleave="showCross = false" class="todo-item">
                         <td ng-hide="(selectedFilter == 'active' && item.done == true)
                             || (selectedFilter == 'completed' && item.done == false)">
-                        <span class="close" ng-click="removeTodo(item.id, $index)" ng-show="showCross">×</span>
-                        <input ng-id="item.id" class="custom-checkbox" type="checkbox" ng-model="item.done">
-                        <label class="custom-label" ng-for="item.id" ng-click="toggleTodo(item.id, $index)"></label>
-                            <span ng-bind="item.task" ng-dblclick="editTodo(item.id)" ng-class="{done: item.done}"
-                              ng-hide="editingTodo === item.id"></span>
-                        <input ng-show="editingTodo === item.id" class="edit form-control" ng-model="item.task"
-                               ng-escape="closeEditingTodo()" ng-enter="doneEditingTodo(item.id, $index)"
-                                ng-blur="doneEditingTodo(item.id, $index)">
+                        <span class="close" ng-click="removeTodo(item.uuid, $index)" ng-show="showCross">×</span>
+                        <input ng-id="item.uuid" class="custom-checkbox" type="checkbox" ng-model="item.done">
+                        <label class="custom-label" ng-for="item.uuid" ng-click="toggleTodo(item.uuid, $index)"></label>
+                            <span ng-bind="item.task" ng-dblclick="editTodo(item.uuid)" ng-class="{done: item.done}"
+                              ng-hide="editingTodo === item.uuid"></span>
+                        <input ng-show="editingTodo === item.uuid" class="edit form-control" ng-model="item.task"
+                               ng-escape="closeEditingTodo()" ng-enter="doneEditingTodo(item.uuid, $index)"
+                                ng-blur="doneEditingTodo(item.uuid, $index)">
                         </td>
                     </tr>
                 </table>
