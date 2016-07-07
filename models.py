@@ -1,23 +1,16 @@
 from datetime import datetime
-from flask_sqlalchemy import SQLAlchemy
-
-db = SQLAlchemy()
-
-
-class Todo(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    task = db.Column(db.Text)
-    done = db.Column(db.Boolean)
-    date = db.Column(db.DateTime)
-
-    def __init__(self, task, done):
-        self.task = task
-        self.done = done
-        self.date = datetime.utcnow()
+from pynamodb.models import Model
+from pynamodb.attributes import (
+    UnicodeAttribute, NumberAttribute, UnicodeSetAttribute, UTCDateTimeAttribute,
+    BooleanAttribute)
 
 
-class Meeting(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
 
-class MeetingStatus(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+class Todo(Model):
+    class Meta:
+        table_name = 'todos'
+        region = 'us-east-1'
+    id = NumberAttribute(hash_key=True)
+    task = UnicodeAttribute()
+    done = BooleanAttribute()
+    date = UTCDateTimeAttribute()

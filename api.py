@@ -1,7 +1,9 @@
+from __future__ import print_function
 from flask import Blueprint, request
 from flask.ext.restful import Api, Resource, fields, marshal_with
 from werkzeug.datastructures import ImmutableDict
-from models import Todo, db
+from models import Todo
+from datetime import datetime
 
 api = Api(prefix='/api')
 api_bp = Blueprint('api_bp', __name__)
@@ -18,13 +20,14 @@ todo_fields = {
 class TodoListResource(Resource):
     @marshal_with(todo_fields)
     def get(self):
-        return Todo.query.all()
+        return Todo.scan()
 
     @marshal_with(todo_fields)
     def post(self):
-        new = Todo(request.json['task'], False)
-        db.session.add(new)
-        db.session.commit()
+        print('post!')
+        print(request.json)
+        new = Todo(id=1,task=request.json['task'],done= False, date=datetime.utcnow())
+        new.save()
         return new, 201
 
     def put(self):

@@ -1,6 +1,6 @@
 {
     "dev": {
         "s3_bucket": "dczaptest",
-        "app_function": "hello.app"
+        "app_function": "todoapp.app"
     }
 }

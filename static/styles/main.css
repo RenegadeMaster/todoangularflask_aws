@@ -1,5 +1,5 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans);
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:600);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:600);
 
 body {
     font-family: 'Open Sans', sans-serif;
@@ -33,7 +33,7 @@ input[type=checkbox].custom-checkbox:checked + label.custom-label {
 }
 
 .custom-label{
-    background-image:url(/static/images/checkbox.png);
+    background-image:url(https://s3.amazonaws.com/todotesteval/images/checkbox.png);
 }
 
 .close {
