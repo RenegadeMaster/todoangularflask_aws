@@ -4,29 +4,35 @@ from flask.ext.restful import Api, Resource, fields, marshal_with
 from werkzeug.datastructures import ImmutableDict
 from models import Todo
 from datetime import datetime
+import uuid
 
 api = Api(prefix='/api')
 api_bp = Blueprint('api_bp', __name__)
 api.init_app(api_bp)
 
 todo_fields = {
-    'id': fields.Integer,
+    'uuid': fields.String,
     'task': fields.String,
     'date': fields.DateTime,
-    'done': fields.Boolean
+    'done': fields.Boolean,
+    'owner': fields.String
 }
 
 
 class TodoListResource(Resource):
     @marshal_with(todo_fields)
     def get(self):
-        return Todo.scan()
+        returned_results = list(Todo.list_index.query('1'))
+        print('query returned list length ' + str(len(returned_results)))
+        for todoitem in returned_results:
+            print('query got item: {0}'.format(todoitem))
+        return returned_results
 
     @marshal_with(todo_fields)
     def post(self):
         print('post!')
         print(request.json)
-        new = Todo(id=1,task=request.json['task'],done= False, date=datetime.utcnow())
+        new = Todo(uuid=str(uuid.uuid4()),task=request.json['task'],done= False, date=datetime.utcnow(), owner='dirk.coetsee@gmail.com', list='1')
         new.save()
         return new, 201
 

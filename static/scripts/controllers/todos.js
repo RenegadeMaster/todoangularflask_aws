@@ -3,6 +3,7 @@
 angular.module('todoWebApp')
     .controller('TodosCtrl', function($scope, TodoService) {
         $scope.items = [];
+        $scope.pendingItems = []
         $scope.completedItems = [];
         $scope.itemsLeftCounter = 0;
         $scope.newTodo = '';
@@ -10,13 +11,15 @@ angular.module('todoWebApp')
         $scope.selectedFilter = 'all';
 
         TodoService.list().then(function (result) {
-            $scope.items = result.data;
-            $scope.itemsLeftCounter = $scope.items.reduce(function(prev, current, index, array) {
-               if (!array[index].done) {
-                   return prev + 1;
-               }
-               return prev;
-            }, 0);
+            if (result.data.constructor === Array) {
+                $scope.items = result.data;
+                $scope.itemsLeftCounter = $scope.items.reduce(function (prev, current, index, array) {
+                    if (!array[index].done) {
+                        return prev + 1;
+                    }
+                    return prev;
+                }, 0);
+            }
         });
 
         $scope.addTodo = function () {
